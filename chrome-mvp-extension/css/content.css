@@ -1,0 +1,15 @@
+/* Content script styles for MVP Chrome Extension */
+
+.mvp-highlight {
+    background-color: #ffeb3b !important;
+    border-left: 3px solid #ff9800 !important;
+    padding-left: 10px !important;
+    margin-left: -13px !important;
+    transition: all 0.3s ease !important;
+    border-radius: 0 5px 5px 0 !important;
+}
+
+.mvp-highlight:hover {
+    background-color: #ffc107 !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MVP Extension</title>
+    <link rel="stylesheet" href="css/popup.css">
+</head>
+<body>
+    <div class="container">
+        <h1>MVP Extension</h1>
+        <div class="stats">
+            <p>Current URL: <span id="current-url">Loading...</span></p>
+            <p>Page Title: <span id="page-title">Loading...</span></p>
+        </div>
+        <div class="actions">
+            <button id="highlight-btn">Highlight Page</button>
+            <button id="count-words-btn">Count Words</button>
+            <button id="clear-btn">Clear</button>
+        </div>
+        <div class="result" id="result"></div>
+        <div class="footer">
+            <small>Click count: <span id="click-count">0</span></small>
+        </div>
+    </div>
+    <script src="js/popup.js"></script>
+</body>
+</html>
