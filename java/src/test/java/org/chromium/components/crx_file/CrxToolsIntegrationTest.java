@@ -71,9 +71,28 @@ class CrxToolsIntegrationTest {
     }
 
     @Test
-    void verifyCliGeneratedCrx() throws IOException {
-        Path cliCrx = repositoryRoot().resolve("chrome-mvp-extension.crx");
-        Assumptions.assumeTrue(Files.exists(cliCrx), "Expected CLI generated CRX to exist");
+    void verifyCliGeneratedCrx() throws Exception {
+        Assumptions.assumeTrue(isCrx3Available(), "crx3 CLI not available");
+
+        Path sourceDir = repositoryRoot().resolve("chrome-mvp-extension");
+        Path cliCrx = tempDir.resolve("cli-extension.crx");
+
+        Process process = new ProcessBuilder("crx3",
+                "create",
+                sourceDir.toString(),
+                "-o",
+                cliCrx.toString())
+                .redirectErrorStream(true)
+                .start();
+        String output = new String(process.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+        boolean finished = process.waitFor(30, TimeUnit.SECONDS);
+        if (!finished) {
+            process.destroyForcibly();
+        }
+        assertTrue(finished, "crx3 create timed out");
+        assertEquals(0, process.exitValue(), () -> "crx3 create failed: " + output.trim());
+        Assumptions.assumeTrue(Files.exists(cliCrx), "CLI failed to create CRX");
+
         CrxVerifier.Verification verification =
                 CrxVerifier.verify(cliCrx, VerifierFormat.CRX3, List.of(), new byte[0]);
         assertEquals(VerifierResult.OK_FULL, verification.getResult());
