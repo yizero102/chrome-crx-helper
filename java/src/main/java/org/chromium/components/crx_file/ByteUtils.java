@@ -40,6 +40,22 @@ final class ByteUtils {
         return builder.toString();
     }
 
+    static byte[] fromHex(String hex) {
+        if ((hex.length() & 1) != 0) {
+            throw new IllegalArgumentException("Hex string must have an even length");
+        }
+        byte[] result = new byte[hex.length() / 2];
+        for (int i = 0; i < hex.length(); i += 2) {
+            int high = Character.digit(hex.charAt(i), 16);
+            int low = Character.digit(hex.charAt(i + 1), 16);
+            if (high < 0 || low < 0) {
+                throw new IllegalArgumentException("Invalid hexadecimal character in: " + hex);
+            }
+            result[i / 2] = (byte) ((high << 4) + low);
+        }
+        return result;
+    }
+
     static boolean containsSubsequence(byte[] array, byte[] subsequence) {
         if (subsequence.length == 0) {
             return true;
